@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>TOLEDO</title>
+</head>
+    
+<body>
+    <header class="topbar">
+        <a href="index.html"><h1>HEX . </h1></a>
+    
+    <nav class="navbar">
+        <ul>
+            <li><i class="fa-solid fa-house"></i><a href="index.html">Home</a></li>
+            <li><i class="fa-solid fa-arrow-right-to-bracket"></i><a href="login.html">Log In</a></li>
+            <li><i class="fa-solid fa-address-book"></i><a href="contact.html">Contacts</a></li>
+            <li><i class="fa-solid fa-circle-info"></i><a href="about.html">About</a></li>
+            <div class="dropdown">
+        <button><i class="fa-solid fa-bars"></i></button>
+        <div class="content">
+        <a href="https://www.facebook.com">Facebook</a>
+        <a href="https://www.tiktok.com">Tiktok</a>
+        <a href="https://www.instagram.com">Instagram</a>
+        <a href="https://www.youtube.com">Youtube</a>
+        </div>
+    </div>
+        </ul>
+    </nav>
+</header>
+    
+    <div class="container">
+    
+        <h1>Welcome to my page</h1>
+        <section class="home">
+        <p>I learned how to build websites using HTML, CSS, and jQuery, starting from simple pages and improving step by step.
+With HTML, I structure my content, with CSS I design and style it, and with jQuery I add interactive features to make it more dynamic.
+These skills helped me create responsive and user-friendly websites while understanding how the front end of a website really works.</p>
+    </section>
+    </div>
+
+    <script>
+    $(document).ready(function(){
+    $(".dropdown button").click(function(){
+        $(".content").slideToggle(600);
+        });
+    });
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>TOLEDO</title>
+</head>
+    
+<body>
+    <header class="topbar">
+        <a href="index.html"><h1>HEX .</h1></a>
+    
+    <nav class="navbar">
+        <ul>
+            <li><i class="fa-solid fa-house"></i><a href="index.html">Home</a></li>
+            <li><i class="fa-solid fa-arrow-right-to-bracket"></i><a href="login.html">Log In</a></li>
+            <li><i class="fa-solid fa-address-book"></i><a href="contact.html">Contacts</a></li>
+            <li><i class="fa-solid fa-circle-info"></i><a href="about.html">About</a></li>
+            <div class="dropdown">
+        <button><i class="fa-solid fa-bars"></i></button>
+        <div class="content">
+        <a href="https://www.facebook.com">Facebook</a>
+        <a href="https://www.tiktok.com">Tiktok</a>
+        <a href="https://www.instagram.com">Instagram</a>
+        <a href="https://www.youtube.com">Youtube</a>
+        </div>
+    </div>
+        </ul>
+    </nav>
+</header>
+    <div class="container">
+    <form class="login-form" action="login.html">
+        <h2>Login</h2>
+        <p id="loggedin" style="color: greenyellow; display:none;"></p>
+        <div class="input-group">
+            <i class="fa fa-user"></i>
+            <input type="text" placeholder="Username" id="username">
+      </div> 
+
+        <div class="input-group">
+            <i class="fa fa-lock"></i>
+            <input type="password" placeholder="Password" id="password">
+    </div>
+        <p id="error" style="color:red; display:none;"></p>
+        <label for="checkbox">Remember me?</label>
+        <input type="checkbox" id="rememberMe">
+        <button type="submit" class="loginbtn">Log In</button>
+        <button type="button" class="loginbtn" id="registerbtn">Register</button>
+    </form>
+
+    
+<script>
+$(document).ready(function(){
+
+    if(localStorage.getItem("loggedInUser")){
+        window.location.href = "info.html";
+    }
+
+    if(localStorage.getItem("rememberedUser")){
+        $("#username").val(localStorage.getItem("rememberedUser"));
+        $("#rememberMe").prop("checked", true);
+    }
+
+    $(".login-form").submit(function(e){
+        e.preventDefault();
+
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var savedPassword = localStorage.getItem("user_" + username);
+
+        if(username === "" || password === ""){
+            $("#error").text("All fields required").show();
+            return;
+        }
+
+        if(savedPassword === null){
+            $("#error").text("User not registered!").show();
+            return;
+        }
+
+        if(password !== savedPassword){
+            $("#error").text("Invalid password!").show();
+            return;
+        }
+
+        if($("#rememberMe").is(":checked")){
+            localStorage.setItem("rememberedUser", username);   
+        } else {
+            localStorage.removeItem("rememberedUser");
+        }
+
+        $("#error").hide();
+        $("#loggedin").text("Logged in successfully!").show();
+
+        localStorage.setItem("loggedInUser", username);
+        window.location.href = "info.html";
+    });
+
+    $("#registerbtn").click(function(){
+
+        var username = $("#username").val();
+        var password = $("#password").val();
+
+        if(username === "" || password === ""){
+            $("#error").text("All fields required to register").show();
+            return;
+        }
+
+        if(localStorage.getItem("user_" + username)){
+            $("#error").text("Username already exists!").show();
+            return;
+        }
+
+        localStorage.setItem("user_" + username, password);
+
+        $("#error").hide();
+        $("#loggedin").text("Registered successfully! You can now login.").show();
+    });
+
+});
+</script>
+
+<script>
+    $(document).ready(function(){
+        $(".dropdown button").click(function(){
+            $(".content").slideToggle(600);
+        });
+    });
+</script>
+
+</div>
+    
+</body>
+</html>

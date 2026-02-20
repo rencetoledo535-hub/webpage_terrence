@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>TOLEDO</title>
+</head>
+
+    
+<body>
+    <header class="topbar">
+        <a href="index.html"><h1>HEX . </h1></a>
+    
+    <nav class="navbar">
+        <ul>
+            <li><i class="fa-solid fa-house"></i><a href="index.html">Home</a></li>
+            <li><i class="fa-solid fa-arrow-right-to-bracket"></i><a href="login.html">Log In</a></li>
+            <li><i class="fa-solid fa-address-book"></i><a href="contact.html">Contacts</a></li>
+            <li><i class="fa-solid fa-circle-info"></i><a href="about.html">About</a></li>
+            <div class="dropdown">
+        <button><i class="fa-solid fa-bars"></i></button>
+        <div class="content">
+        <a href="https://www.facebook.com">Facebook</a>
+        <a href="https://www.tiktok.com">Tiktok</a>
+        <a href="https://www.instagram.com">Instagram</a>
+        <a href="https://www.youtube.com">Youtube</a>
+        </div>
+    </div>
+        </ul>
+    </nav>
+</header>
+
+    <div class="container">
+    
+        <h1>Contacts</h1>
+        <section class="contacts">
+        <ul>
+            <li>Email : terrencejoshuatoledo@gmail.com </li>
+
+           <li>Phone Number : 09812753523 </li>
+
+           <li>Address : Laya Cuizon St. Poblacion Mariveles Bataan</li> 
+
+          <li>Social Media : Rence Toledo (Facebook), @indr4maticexprssn (Instagram) </li> 
+        
+        </ul>
+    </section>
+    </div>
+
+<script>
+    $(document).ready(function(){
+        $(".dropdown button").click(function(){
+            $(".content").slideToggle(600);
+        });
+    });
+</script>
+
+</body>
+</html>

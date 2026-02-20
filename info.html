@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-4.0.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <link rel="stylesheet" href="style/styles.css">
+    <title>TOLEDO</title>
+</head>
+    
+<body>
+    <h2 id="welcome"></h2>
+    <p id="status" style="color: greenyellow;">Logged In</p>
+    <button id="logout">Log Out</button>
+<div class="container">
+    <div id="submit-header">
+    <h3>Submit Personal Information</h3>
+    </div>
+    <form id="info-form">
+        <div class="input"></div>
+        <input type="text" id="firstname" placeholder="First Name"><br><br>
+        <input type="text" id="middlename" placeholder="Middle Name"><br><br>
+        <input type="text" id="lastname" placeholder="Last Name"><br><br>
+        <input type="email" id="email" placeholder="Email"><br><br>
+        <input type="number" id="age" placeholder="Age"><br><br>
+         <button type="submit" id="submit">Submit</button>
+        <p id="info-error" style="color:red; display:none;"></p>
+</form>
+    <div id="submittedform">
+    <div class="submittitle"></div>
+    <h3>Submitted Information (Queue)</h3>
+    <table border="1" id="info-table">
+    <thead>
+        <tr>
+            <th>Queue No</th>
+            <th>First Name</th>
+             <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Age</th>
+        </tr>
+         </thead>
+        <tbody></tbody>
+</table>
+     <button id="next">next</button>
+     <button id="undo">undo</button>
+    </div>
+    </div>
+    <script>
+       $(document).ready(function(){
+
+    var currentUser = localStorage.getItem("loggedInUser");
+    if(!currentUser){
+        window.location.href = "login.html";
+    } else {
+        $("#welcome").text("Hello there, " + currentUser);
+    }
+
+    $("#logout").click(function(){
+        localStorage.removeItem("loggedInUser");
+        window.location.href = "login.html";
+    });
+
+    var infoQueue = JSON.parse(localStorage.getItem("queue_" + currentUser)) || [];
+    var deletedStack = [];
+    renderQueue();
+
+    $("#info-form input").on("input", function(){
+        if($(this).val().trim() !== ""){
+            $(this).removeClass("error").addClass("success");
+        } else {
+            $(this).removeClass("success");
+        }
+    });
+
+    $("#info-form").submit(function(e){
+        e.preventDefault();
+
+        var firstname = $("#firstname").val().trim();
+        var middlename = $("#middlename").val().trim();
+        var lastname = $("#lastname").val().trim();
+        var email = $("#email").val().trim();
+        var age = $("#age").val().trim();
+
+        $("#info-form input").removeClass("error success");
+
+        var hasError = false;
+
+        if(!firstname){ 
+        $("#firstname").addClass("error"); hasError = true;
+        }
+        if(!middlename){ 
+        $("#middlename").addClass("error"); hasError = true;
+        }
+        if(!lastname){ 
+        $("#lastname").addClass("error"); hasError = true;
+        }
+        if(!email){
+         $("#email").addClass("error"); hasError = true;
+        }
+        if(!age){
+             $("#age").addClass("error"); hasError = true;
+        }
+        if(hasError){
+            $("#info-error").text("All fields are required").show();
+            return;
+        }
+
+        $("#info-error").hide();
+        
+        infoQueue.push({ firstname, middlename, lastname, email, age });
+        localStorage.setItem("queue_" + currentUser, JSON.stringify(infoQueue));
+        renderQueue();
+
+        $("#info-form input").val("").removeClass("error success");
+    });
+
+    function renderQueue(){
+        $("#info-table tbody").empty();
+        infoQueue.forEach(function(item, index){
+            $("#info-table tbody").append(
+                "<tr><td>" + (index+1) + "</td><td>" + 
+                item.firstname + "</td><td>" + 
+                item.middlename + "</td><td>" + 
+                item.lastname + "</td><td>" + 
+                item.email + "</td><td>" + 
+                item.age + "</td></tr>"
+            );
+        });
+    }
+
+    $("#next").click(function(){
+    if(infoQueue.length === 0){
+        alert("Queue is empty!");
+        return;
+    }
+
+    var removedItem = infoQueue.shift();
+    localStorage.setItem("queue_" + currentUser, JSON.stringify(infoQueue));  
+    deletedStack.push(removedItem);        
+
+    renderQueue();
+    console.log("Deleted Stack:", deletedStack);
+});
+
+    $("#undo").click(function(){
+
+        if(deletedStack.length === 0){
+          alert("Nothing to undo!");
+         return;
+        }
+
+        var restItem = deletedStack.pop(); 
+        infoQueue.unshift(restItem);       
+        localStorage.setItem("queue_" + currentUser, JSON.stringify(infoQueue));
+      renderQueue();
+});
+
+});
+
+    </script>
+</body>
+</html>
+
